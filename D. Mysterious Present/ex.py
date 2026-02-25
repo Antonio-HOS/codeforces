@@ -1,4 +1,5 @@
-# ta faltando conluir o teste 10
+# DESISTO
+debug = 1
 
 count = 0
  
@@ -16,31 +17,41 @@ class LinkedList:
     def insert(self, altura, largura, alturaC, larguraC, posicao):
         global count
         if(altura<=alturaC or largura <=larguraC):
-            print("[envelope menor que o cartao]")
+            if debug:
+                print("[envelope menor que o cartao]")
             return
         new_node = Node(altura, largura, posicao)
  
         if not self.head:
             self.head = new_node
-            print("[não existe head]")
+            if debug:
+                print("[não existe head]")
             count +=1
             return
         
         last = self.head
  
-        if not(last.altura <= new_node.altura and last.largura <= new_node.largura ):
+        if last.altura >= new_node.altura and last.largura >= new_node.largura :
             self.head = new_node
+            if (last.altura == new_node.altura or last.largura == new_node.largura):
+                new_node.next = last.next
+                if debug:
+                    print(f"[altura do head atual é igual]")
+                return
             new_node.next=last
             count +=1
-            print("[altura do head nao atual não é a menor possivel]")
+            if debug:
+                print(f"[altura do head atual não é a menor possivel] antigo[{last.altura}, {last.largura}] novo[{new_node.altura}, {new_node.largura}]")
             return
         
         while last.next:
             current = last.next
-            print("[passando pelo laco]")
+            if debug:
+                print("[passando pelo laco]")
  
             if(last.altura == new_node.altura or last.largura == new_node.largura):
-                print("[tamanho de envelope igual a ja existente]")
+                if debug:
+                    print("[tamanho de envelope igual a ja existente]")
                 return
             
             if(current.altura > new_node.altura and current.largura > new_node.largura):
@@ -48,16 +59,19 @@ class LinkedList:
                 last.next = new_node
                 new_node.next = current                
                 count +=1 
-                print("[caminhado com ponteiro em direcao ao fim da lista]")
+                if debug:
+                    print("[caminhado com ponteiro em direcao ao fim da lista]")
                 return    
 
  
             else:
                 last = last.next
-                print("[adicionando novo no]")
+                if debug:
+                    print("[adicionando novo no]")
  
         if not(last.altura == new_node.altura or last.largura == new_node.largura):
-            print("[fugio de todas as condicoes]")
+            if debug:
+                print("[fugio de todas as condicoes]")
             count +=1
             last.next=new_node
  
@@ -68,6 +82,7 @@ class LinkedList:
             return
         while current:
             print(current.posicao, end= ' ' )
+            # print(f"{current.altura},  {current.largura}", end= '-->' )
  
             current = current.next
  
@@ -87,6 +102,6 @@ for i in range(qntd_cartoes):
     new_envelope = input().split()
     posicao += 1
     envelopes.insert(int(new_envelope[0]), int(new_envelope[1]), altura_cartao, largura_cartao, posicao)
- 
+
 print(count)
 envelopes.print()
