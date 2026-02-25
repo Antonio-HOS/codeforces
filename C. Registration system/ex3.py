@@ -1,3 +1,4 @@
+# FUNCIONOU
 number_of_names = int(input())
 
 names ={}
